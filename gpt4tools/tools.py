@@ -16,7 +16,7 @@ from transformers import pipeline, BlipProcessor, BlipForConditionalGeneration, 
 
 from diffusers import EulerAncestralDiscreteScheduler
 from diffusers import StableDiffusionControlNetPipeline, ControlNetModel, UniPCMultistepScheduler
-from diffusers import StableDiffusionPipeline, StableDiffusionInpaintPipeline, StableDiffusionInstructPix2PixPipeline
+from diffusers import StableDiffusionPipeline, StableDiffusionInpaintPipeline, StableDiffusionInstructPix2PixPipeline, AutoPipelineForInpainting
 
 from controlnet_aux import OpenposeDetector, MLSDdetector, HEDdetector
 
@@ -978,8 +978,8 @@ class Inpainting:
         self.revision = 'fp16' if 'cuda' in self.device else None
         self.torch_dtype = torch.float16 if 'cuda' in self.device else torch.float32
 
-        self.inpaint = StableDiffusionInpaintPipeline.from_pretrained(
-            "runwayml/stable-diffusion-inpainting", revision=self.revision, torch_dtype=self.torch_dtype,
+        self.inpaint = AutoPipelineForInpainting.from_pretrained(
+            "runwayml/stable-diffusion-inpainting", torch_dtype=self.torch_dtype, variant="fp16",
             cache_dir=CACHE_DIR).to(device)
     def __call__(self, prompt, original_image, mask_image):
         update_image = self.inpaint(prompt=prompt, image=original_image.resize((512, 512)),
