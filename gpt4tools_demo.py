@@ -79,6 +79,9 @@ class ConversationBot:
                     self.models[class_name] = globals()[class_name](
                         **{name: self.models[name] for name in template_required_names})
         self.tools = []
+
+        print(f"All the Available Functions: {self.models}")
+
         for instance in self.models.values():
             for e in dir(instance):
                 if e.startswith('inference'):
