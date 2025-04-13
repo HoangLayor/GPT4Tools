@@ -3,7 +3,7 @@ transformers==4.31.0
 langchain==0.0.101
 deepspeed==0.9.5
 diffusers==0.21.2
-gradio==3.35.2
+gradio==3.26.0
 wget==3.2
 peft==0.4.0
 controlnet-aux

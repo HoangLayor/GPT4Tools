@@ -70,7 +70,6 @@ class ConversationBot:
         # Load Basic Foundation Models
         for class_name, device in load_dict.items():
             self.models[class_name] = globals()[class_name](device=device)
-
         # Load Template Foundation Models
         for class_name, module in globals().items():
             if getattr(module, 'template_model', False):
@@ -79,9 +78,6 @@ class ConversationBot:
                 if template_required_names.issubset(loaded_names):
                     self.models[class_name] = globals()[class_name](
                         **{name: self.models[name] for name in template_required_names})
-        
-        print(f"All the Available Functions: {self.models}")
-
         self.tools = []
         for instance in self.models.values():
             for e in dir(instance):
